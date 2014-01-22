@@ -9,8 +9,14 @@
 <body>
   <div it="todo-container">
       <!-- ko ifnot: addMode -->
-      <div class="new-task">
-          <button data-bind="click: goAddMode">New task</button>
+      <div class="header">
+          <button data-bind="click: goAddMode, html: l().new_task">New task</button>
+          <div class="select-lang">
+            <select data-bind="value: language">
+              <option value="ru">Русский</option>
+              <option value="en">English</option>
+            </select>
+          </div>
       </div>
       <!-- /ko -->
       <!-- ko if: addMode -->
