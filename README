@@ -1,0 +1,8 @@
+Nothing is neede to just start the application.
+
+To build styles you need:
+``shell
+
+$ npm install
+$ npm install grunt -g
+$ grunt ezless
