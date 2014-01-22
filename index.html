@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TODODO</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/layout.css">
+</head>
+<body>
+  <div it="todo-container">
+      <!-- ko ifnot: addMode -->
+      <div class="new-task">
+          <button data-bind="click: goAddMode">New task</button>
+      </div>
+      <!-- /ko -->
+      <!-- ko if: addMode -->
+      <div class="new-task-form" data-bind="edit: { action: 'add', done: onAdd, cancel: onCancelAdd }"></div>
+      <!-- /ko -->
+      <ul class="todo-list" data-bind="template: { name: 'item', foreach: list, beforeRemove: slideUpItem, afterAdd: slideDownItem}"> </ul>
+  </div>
+  <div id="todo-addform" class="addform">
+    <form>
+        <div class="row">
+            <span class="caption-block" data-bind="visible: addNew">New task</span>
+            <textarea class="full-width" data-bind="value: current.subject, valueUpdate: 'afterkeydown'"></textarea>
+        </div>
+        <div class="row tags">
+            <span class="caption-inline">Tags</span>
+            <!-- ko foreach: tags -->
+            <input type="radio" data-bind="checked: $parent.current.tag, value: $data, attr: { id: 'tag-' + $data }">
+            <label data-bind="attr: {for: 'tag-' + $data  }, css: $data">
+                <span class="circle"></span>
+            </label>
+            <!-- /ko -->
+        </div>
+        <div class="row priorities">
+          <span class="caption-inline">Priority</span>
+          <!-- ko foreach: priorities -->
+          <input type="radio" data-bind="checked: $parent.current.priority, value: $data, attr: { id: 'priority-' + $data }">
+          <label data-bind="attr: {for: 'priority-' + $data  }, css: $data">
+              <button data-bind="html: $data, click: $parent.setPriority"></button>
+          </label>
+          <!-- /ko -->
+        </div>
+        <div class="row done">
+          <label>
+            <input type="checkbox" value="done" data-bind="checked: current.done">
+            Completed
+          </label>
+          <!-- /ko -->
+        </div>
+        <div class="row">
+          <button data-bind="disable: !current.subject(), click: addItem">Add</button>
+          <button data-bind="click: cancel">Cancel</button>
+        </div>
+    </form>
+  </div>
+
+  <script id="item" type="text/html">
+    <!-- ko ifnot: edited -->
+    <li class="todo-list-item" data-bind="css: { done: done }">
+       <span class="item-done">
+           <input type="checkbox" data-bind="checked: done" />
+       </span>
+       <span class="item-color" data-bind="css: tag"><span class="circle"></span></span>
+       <span class="item-subject" data-bind="html: subject"></span>
+       <!-- ko ifnot: confirm -->
+       <span class="toolbar">
+           <ul class="toolbar-options">
+               <li class="toolbar-option edit" data-bind="click: edit"></li>
+               <li class="toolbar-option delete" data-bind="click: confirmDelete"></li>
+           </ul>
+       </span>
+       <!-- /ko -->
+       <!-- ko if: confirm -->
+       <span class="confirm">
+         <a href="#" data-bind="click: $parent.remove">Delete</a>
+         <a href="#" data-bind="click: cancelConfirm">Cancel</a>
+       </span>
+       <!-- /ko -->
+    </li>
+    <!-- /ko -->
+    <!-- ko if: edited -->
+    <li data-bind="edit: { action: 'edit', done: update, cancel: restore }"></li>
+    <!-- /ko -->
+  </script>
+  <script src="jquery.js"></script>
+  <script src="ko.js"></script>
+  <script src="models.js"></script>
+  <script>
+      new App()
+  </script>
+</body>
+</html>

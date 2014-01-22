@@ -1,0 +1,184 @@
+@circle-radius: 10px;
+@circle-border: 3px;
+
+body {
+  font: 13px normal Arial, sans-serif;
+  max-width: 400px;
+}
+
+/* button styling from the mockups */
+button {
+  border: 1px solid black;
+  padding: 3px 5px;
+  border-radius: 10px;
+  background-color: white;
+  outline: none;
+}
+
+.new-task {
+  background-color: #d5d5d5;
+  line-height: 27px;
+  padding-left: 10px;
+}
+
+.todo-list-item {
+  height: 30px;
+  line-height: 30px;
+  position: relative;
+
+  &:hover {
+    background-color: #f5f5f5;
+
+    .toolbar-options {
+      .toolbar-option {
+        &.edit {
+          background-position: 0 -16px;
+        }
+
+        &.delete {
+          background-position: -16px -16px;
+        }
+      }
+    }
+  }
+
+  &.done {
+   .item-subject {
+    text-decoration: line-through;
+   }
+  }
+
+  .toolbar-options {
+    position: absolute;
+    right: 0px;
+    display: inline-block;
+
+    .toolbar-option {
+      background-image: url(assets/tools.png);
+      background-repeat: no-repeat;
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+      vertical-align: middle;
+
+      &.edit {
+        background-position: 0 0;
+      }
+
+      &.delete {
+        background-position: -16px 0;
+      }
+    }
+  }
+
+  .confirm {
+    position: absolute;
+    right: 0;
+    display: inline-block;
+
+    a {
+      text-decoration: none;
+      display: inline-block;
+      background-color: #b2b2b2;
+      color: black;
+      padding: 0 10px;
+
+      &:hover {
+        background-color: #c2c2c2;
+      }
+    }
+  }
+
+  .item-color {
+    display: inline-block;
+    vertical-align: middle;
+
+  }
+}
+
+.circle {
+  width: 2 * @circle-radius;
+  height: 2 * @circle-radius;
+  border-radius: @circle-radius;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+&.white .circle {
+  background-color: white;
+}
+
+&.blue .circle {
+  background-color: blue;
+}
+
+&.green .circle {
+  background-color: green;
+}
+
+&.yellow .circle {
+  background-color: yellow;
+}
+
+&.purple .circle {
+  background-color: purple;
+}
+
+&.red .circle {
+  background-color: red;
+}
+
+.addform {
+  background-color: #d5d5d5;
+  padding: 10px 15px;
+
+  .row {
+    margin: 5px 0;
+  }
+
+  .caption-block {
+    display: block;
+  }
+
+  .full-width {
+    width: 100%;
+    height: 40px;
+  }
+
+  .caption-inline {
+    display: inline-block;
+    width: 50px;
+  }
+
+  .tags {
+
+    input[type=radio] {
+      display: none;
+    }
+
+    label {
+      display: inline-block;
+      padding: 0 2px;
+    }
+
+    input[type='radio']:checked + label .circle {
+      width: 2 * (@circle-radius - @circle-border);
+      height: 2 * (@circle-radius - @circle-border);
+      border: @circle-border solid black;
+    }
+  }
+
+  .priorities {
+
+    input[type=radio] {
+      display: none;
+    }
+
+    input[type='radio']:checked + label button {
+      border: 3px solid black;
+      padding: 1px 3px;
+      font-weight: bold;
+    }
+  }
+}
