@@ -1,5 +1,15 @@
 (function() {
 
+var LangMap = {
+  en: {
+    'new_task': "New Task"
+  },
+
+  ru: {
+    'new_task': "Новая задача"
+  }
+}
+
 var exampleData = [
       {
         subject: "Раз",
@@ -22,8 +32,23 @@ var exampleData = [
     ]
 
 window.App = function() {
-  var form = new Form(document.getElementById('todo-addform'))
-  var todo = new TodoList(document.getElementById('todo-container'), exampleData, 'en')
+  var lang = localStorage.getItem('todo-lang')
+
+  if (!lang || !LangMap[lang]) {
+    language = 'en'
+  }
+
+
+  var language = ko.observable(lang),
+      map = ko.observable(LangMap[lang])
+
+  language.subscribe(function(value) {
+    map(LangMap[value]);
+    localStorage.setItem('todo-lang', value)
+  })
+
+  var form = new Form(document.getElementById('todo-addform'), map)
+  var todo = new TodoList(document.getElementById('todo-container'), exampleData, language, map)
 
   ko.bindingHandlers.edit = {
     init: function(element, valueAccessor, allBindings, todoItem, bindingContext) {
@@ -44,17 +69,7 @@ window.App = function() {
 
 }
 
-var LangMap = {
-  en: {
-    'new_task': "New Task"
-  },
-
-  ru: {
-    'new_task': "Новая задача"
-  }
-}
-
-function TodoList(el, sampleData, lang) {
+function TodoList(el, sampleData, lang, langmap) {
   var self = this
 
   var language = localStorage.getItem('todo-lang')
@@ -64,13 +79,8 @@ function TodoList(el, sampleData, lang) {
   }
 
 
-  this.language = ko.observable(language)
-  this.l = ko.observable(LangMap[language])
-
-  this.language.subscribe(function(value) {
-    self.l(LangMap[value]);
-    localStorage.setItem('todo-lang', value)
-  })
+  this.language = lang
+  this.l = langmap
 
   this.addMode = ko.observable(false)
   this.goAddMode = function() {
@@ -200,8 +210,10 @@ function TodoItem(props) {
   }
 }
 
-function Form(el) {
+function Form(el, langmap) {
   el.remove()
+
+  this.l = langmap
 
   this.onAdd = null
   this.tags = [

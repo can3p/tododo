@@ -27,7 +27,7 @@
   <div id="todo-addform" class="addform">
     <form>
         <div class="row">
-            <span class="caption-block" data-bind="visible: addNew">New task</span>
+            <span class="caption-block" data-bind="visible: addNew, text: l().new_task">New task</span>
             <textarea class="full-width" data-bind="value: current.subject, valueUpdate: 'afterkeydown'"></textarea>
         </div>
         <div class="row tags">
