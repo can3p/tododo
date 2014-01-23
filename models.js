@@ -35,7 +35,7 @@ window.App = function() {
   var lang = localStorage.getItem('todo-lang')
 
   if (!lang || !LangMap[lang]) {
-    language = 'en'
+    lang = 'en'
   }
 
 
@@ -71,13 +71,6 @@ window.App = function() {
 
 function TodoList(el, sampleData, lang, langmap) {
   var self = this
-
-  var language = localStorage.getItem('todo-lang')
-
-  if (!language || !LangMap[language]) {
-    language = lang
-  }
-
 
   this.language = lang
   this.l = langmap
